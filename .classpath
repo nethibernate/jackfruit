@@ -3,5 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/netty-all-4.0.4.Final.jar" sourcepath="lib-src/netty-all-4.0.4.Final-sources.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jackfruit-protocol"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
