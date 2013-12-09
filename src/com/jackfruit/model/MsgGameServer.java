@@ -6,7 +6,7 @@ public class MsgGameServer {
 	
 	/** sessionId */
 	public int sessionId;
-	/** ÏûÏ¢ÄÚÈİ */
+	/** æ¶ˆæ¯å†…å®¹  */
 	public IoBuffer buffer;
 	
 	public MsgGameServer(int sessionId, IoBuffer buffer) {

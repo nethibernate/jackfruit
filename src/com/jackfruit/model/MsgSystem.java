@@ -5,7 +5,7 @@ public class MsgSystem {
 	
 	/** sessionId */
 	public int sessionId;
-	/** ÏûÏ¢ÄÚÈİ */
+	/** æ¶ˆæ¯å†…å®¹ */
 	public ServerMember serverMember;
 
 }

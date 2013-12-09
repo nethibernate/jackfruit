@@ -8,7 +8,7 @@ public class MsgClient {
 	
 	/** sessionId */
 	public List<Integer> sessionIdList;
-	/** ÏûÏ¢ÄÚÈİ */
+	/** æ¶ˆæ¯å†…å®¹ */
 	public IoBuffer buffer;
 	
 }

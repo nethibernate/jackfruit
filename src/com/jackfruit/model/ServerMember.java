@@ -2,9 +2,9 @@ package com.jackfruit.model;
 
 public class ServerMember {
 	
-	/** 类型 */
+	/** 绫诲瀷 */
 	public int type;
-	/** 下标 */
+	/** 涓嬫爣 */
 	public int index;
 
 }

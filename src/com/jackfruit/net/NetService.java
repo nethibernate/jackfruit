@@ -12,19 +12,19 @@ import com.jackfruit.model.ServerMember;
 
 public enum NetService {
 	
-	INS;
+INS;
 	
-	/** Íø¹Ø-Â·ÓÉµÄÓ³Éä */
+	/** ç½‘å…³-è·¯ç”±çš„æ˜ å°„ */
 	public Map<ServerMember, RoutingMember> serverRoutingMap = new HashMap<ServerMember, RoutingMember>();
-	/** Íæ¼Ò-ÏÂÒ»¼¶Íø¹ØµÄÓ³Éä */
+	/** ç©å®¶-ä¸‹ä¸€çº§ç½‘å…³çš„æ˜ å°„ */
 	public Map<IoSession, ServerMember> sessionServerMap = new ConcurrentHashMap<IoSession, ServerMember>();
-	/** ID-Íæ¼ÒµÄÓ³Éä */
+	/** ID-ç©å®¶çš„æ˜ å°„ */
 	public Map<Integer, IoSession> idSessionMap = new ConcurrentHashMap<Integer, IoSession>();
 	
-	/** ¼ÆÊı */
+	/** è®¡æ•° */
 	public AtomicInteger sessionCount = new AtomicInteger(0); 
 	
-	/** Ä¬ÈÏÂ·ÓÉ */
+	/** é»˜è®¤è·¯ç”± */
 	public RoutingMember defaultRoutingMember;
 	
 	public int buildCurrentCount() {

@@ -96,13 +96,13 @@ public enum NetLayer {
 	}
 	
 	public static void actorEncoder(IoSession session, Object message) {
-		// 路由
+		// 璺敱
 		RoutingMember routingMember = NetService.INS.getRouingMember(session);
 		if(routingMember == null) {
 			return;
 		}
 		
-		// 消息
+		// 娑堟伅
 		int sessionId = (int)session.getAttribute(SESSION_ID);
 		IoBuffer buffer = (IoBuffer)message;
 		MsgGameServer msgGameServer = new MsgGameServer(sessionId, buffer);
