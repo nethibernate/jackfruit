@@ -3,8 +3,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.List;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
+import com.jackfruit.config.anno.Ignore;
 import com.jackfruit.config.exception.ConfigBuildException;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -102,27 +105,47 @@ public final class ConfigBuilder {
 	private static <T> T buildConfigObject(String prefix, Class<T> clazz, Config config) {
 		T configObject = null;
 		try {
+			List<Class<?>> superClasses = Lists.newArrayList();  
+			Class<?> superClass = clazz;
+			while(!Object.class.equals(superClass)) {
+				superClasses.add(superClass);
+				superClass = superClass.getSuperclass();
+			}
+			
 			configObject = clazz.newInstance();
-			Field[] fields = clazz.getDeclaredFields();
-			for(Field field : fields) {
-				Object value = null;
-				if(field.getType().isPrimitive() || PrimitiveType.isPrimitive(field.getType().getName())) {
-					String path = prefix + field.getName();
-					if(config.hasPath(path)) {
-						value = config.getValue(path).unwrapped();
+			for(Class<?> tempClass : Lists.reverse(superClasses)) {
+				Field[] fields = tempClass.getDeclaredFields();
+				for(Field field : fields) {
+					if(field.isAnnotationPresent(Ignore.class))
+						continue;
+					
+					Object value = null;
+					if(field.getType().isPrimitive() || PrimitiveType.isPrimitive(field.getType().getName())) {
+						String path = prefix + field.getName();
+						if(config.hasPath(path)) {
+							value = config.getValue(path).unwrapped();
+						}
+					} else {
+						String classPath = prefix + field.getName() + ".clazz";
+						Class<?> fieldClazz = field.getType();
+						if(config.hasPath(classPath)) {
+							Object classType = config.getValue(classPath).unwrapped();
+							fieldClazz = Class.forName((String)classType);
+						}
+						value = buildConfigObject(prefix + field.getName() + ".", fieldClazz, config);
 					}
-				} else {
-					value = buildConfigObject(prefix + field.getName() + ".", field.getType(), config);
-				}
-				if(value != null) {
-					field.setAccessible(true);
-					field.set(configObject, value);
-					field.setAccessible(false);
+					if(value != null) {
+						field.setAccessible(true);
+						field.set(configObject, value);
+						field.setAccessible(false);
+					}
 				}
 			}
 		} catch (InstantiationException e) {
 			throw new ConfigBuildException("fail to build " + clazz.getName() + " object from configuration object!", e);
 		} catch (IllegalAccessException e) {
+			throw new ConfigBuildException("fail to build " + clazz.getName() + " object from configuration object!", e);
+		} catch (ClassNotFoundException e) {
 			throw new ConfigBuildException("fail to build " + clazz.getName() + " object from configuration object!", e);
 		}
 		
